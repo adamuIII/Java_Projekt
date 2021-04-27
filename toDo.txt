@@ -1,0 +1,25 @@
+Boss
+	-poruszanie tylko po x
+	-unikanie pociskow
+	-strzelanie
+	-duze wybuchy po zabiciu 
+
+
+Player(update) 
+	-zabieranie hp po przeleceniu statku
+	-wybuch gdy hp = 0
+	-koniec gry
+
+
+NowePoziomy
+	-po zabiciu bosa nowy poziom 
+	-większa trudność
+
+Bonusy
+	-spawn co kilka sekund 
+	-bonus na hp speed i działka jak gracz w nie wleci
+
+Menu
+	-przycisk Start Quit
+	-jak przegrasz to wraca do menu
+
