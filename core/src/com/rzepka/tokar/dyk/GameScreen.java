@@ -41,6 +41,8 @@ class GameScreen implements Screen{
     //world parameters
     private final int WORLD_WIDTH = 72;
     private final int WORLD_HEIGHT = 128;
+//    private final int WORLD_WIDTH = 128;
+//    private final int WORLD_HEIGHT = 72;
 
 
     //Objekty gry
@@ -74,7 +76,7 @@ class GameScreen implements Screen{
 
         //tworzenie objektow gry na ekranie
             //tworzenie statku gracza:
-        statekGracza = new Player(20, 3, WORLD_WIDTH/2, WORLD_HEIGHT/4,10,15,statekGraczaTexture);
+        statekGracza = new Player(30, 3, WORLD_WIDTH/2, WORLD_HEIGHT/4,10,15,statekGraczaTexture);
             //tworzenie pociskow gracza:
           bullets = new ArrayList<Bullet>();
           enemies = new ArrayList<Enemy>();
@@ -108,12 +110,13 @@ class GameScreen implements Screen{
              backgroundOffset=backgroundOffset+1;
              }}
          if(Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN))
-           statekGracza.yPos -= Gdx.graphics.getDeltaTime() * statekGracza.speed;
+             statekGracza.yPos -= Gdx.graphics.getDeltaTime() * statekGracza.speed;
+
 
          //Strzal
          if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            bullets.add(new Bullet(50, (float) (statekGracza.xPos+7.6), (statekGracza.yPos+7), 5,10,bulletTexture));
-            bullets.add(new Bullet(50, (float) (statekGracza.xPos+2.5), statekGracza.yPos+7, 5,10,bulletTexture));
+            bullets.add(new Bullet(60, (float) (statekGracza.xPos+7.6), (statekGracza.yPos+7), 5,10,bulletTexture));
+            bullets.add(new Bullet(60, (float) (statekGracza.xPos+2.5), statekGracza.yPos+7, 5,10,bulletTexture));
 
          }
 
@@ -144,7 +147,6 @@ class GameScreen implements Screen{
                     {
                         enemiesToRemove.add(enemy);
                         explosionList.add(new Explosion(explosionTexture,new Rectangle(enemy.randomPositionX,enemy.yPos,10,10),0.7f));
-
                     }
 
                 }
