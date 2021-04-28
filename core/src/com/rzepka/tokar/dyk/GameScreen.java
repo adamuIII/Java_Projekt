@@ -50,7 +50,6 @@ class GameScreen implements Screen{
     ArrayList<Bullet> bullets;
     ArrayList<Enemy> enemies;
     private LinkedList<Explosion> explosionList;
-
     //Bedziemy mieli duza ilosc pociskow dlatego umiescimy je w LinkedList
 
 
@@ -74,14 +73,17 @@ class GameScreen implements Screen{
 
 
 
+
         //tworzenie objektow gry na ekranie
             //tworzenie statku gracza:
         statekGracza = new Player(30, 3, WORLD_WIDTH/2, WORLD_HEIGHT/4,10,15,statekGraczaTexture);
             //tworzenie pociskow gracza:
           bullets = new ArrayList<Bullet>();
           enemies = new ArrayList<Enemy>();
-
+            //tworzenie eksplozji
           explosionList = new LinkedList<>();
+
+
 
 
 
@@ -121,6 +123,7 @@ class GameScreen implements Screen{
          }
 
 
+
         //scrolling background
         backgroundOffset++;
         if(backgroundOffset % WORLD_HEIGHT ==0)
@@ -129,6 +132,8 @@ class GameScreen implements Screen{
         }
         batch.draw(background,0,-backgroundOffset,WORLD_WIDTH,WORLD_HEIGHT);
         batch.draw(background,0,-backgroundOffset +WORLD_HEIGHT ,WORLD_WIDTH,WORLD_HEIGHT);
+
+
 
 
 
@@ -144,7 +149,7 @@ class GameScreen implements Screen{
                     bulletsToRemove.add(bullet);
                     enemy.enemyHP--;
                     if(enemy.enemyHP==0)
-                    {
+                    {   statekGracza.points++;
                         enemiesToRemove.add(enemy);
                         explosionList.add(new Explosion(explosionTexture,new Rectangle(enemy.randomPositionX,enemy.yPos,10,10),0.7f));
                     }
@@ -174,7 +179,6 @@ class GameScreen implements Screen{
          //gracz
 
          statekGracza.draw(batch);
-
 
 
 

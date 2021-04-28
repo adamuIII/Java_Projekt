@@ -8,7 +8,7 @@ public class Player {
     //Podstawowe wartosci;
     float speed;
     float healthPoints;
-
+    int points=0;
     //pozycja
     public float xPos,yPos;
     float width,height;
