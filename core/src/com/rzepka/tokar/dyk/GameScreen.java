@@ -4,18 +4,21 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.security.AlgorithmConstraints;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
+import java.util.Locale;
 
 class GameScreen implements Screen{
 
@@ -39,10 +42,10 @@ class GameScreen implements Screen{
     private int backgroundOffset;
     float clock=0;
     //world parameters
-    private final int WORLD_WIDTH = 72;
-    private final int WORLD_HEIGHT = 128;
-//    private final int WORLD_WIDTH = 128;
-//    private final int WORLD_HEIGHT = 72;
+ //   private final int WORLD_WIDTH = 72;
+    //  private final int WORLD_HEIGHT = 128;
+    private final int WORLD_WIDTH = 250;
+    private final int WORLD_HEIGHT = 140;
 
 
     //Objekty gry
@@ -51,6 +54,8 @@ class GameScreen implements Screen{
     ArrayList<Enemy> enemies;
     private LinkedList<Explosion> explosionList;
     //Bedziemy mieli duza ilosc pociskow dlatego umiescimy je w LinkedList
+
+    BitmapFont scoreFont;
 
 
     GameScreen(){
@@ -71,12 +76,13 @@ class GameScreen implements Screen{
         statekPrzeciwnika1Texture = textureAtlas.findRegion("Spaceship_01_RED");
         explosionTexture = new Texture("explosion.png");
 
-
+        //NOWE
+        scoreFont = new BitmapFont(Gdx.files.internal("betterfont.fnt"));
 
 
         //tworzenie objektow gry na ekranie
             //tworzenie statku gracza:
-        statekGracza = new Player(30, 3, WORLD_WIDTH/2, WORLD_HEIGHT/4,10,15,statekGraczaTexture);
+        statekGracza = new Player(60, 3, WORLD_WIDTH/2, WORLD_HEIGHT/4,30,30,statekGraczaTexture);
             //tworzenie pociskow gracza:
           bullets = new ArrayList<Bullet>();
           enemies = new ArrayList<Enemy>();
@@ -85,10 +91,11 @@ class GameScreen implements Screen{
 
 
 
-
-
         batch = new SpriteBatch();
+
+
     }
+
 
      @Override
      public void show() {
@@ -102,12 +109,12 @@ class GameScreen implements Screen{
         //Input klawiszy
             //Poruszanie sie
          if(Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT))
-             statekGracza.xPos -= Gdx.graphics.getDeltaTime() * statekGracza.speed;
+             statekGracza.xPos -= Gdx.graphics.getDeltaTime() * (statekGracza.speed+30);
          if(Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT))
-             statekGracza.xPos += Gdx.graphics.getDeltaTime() * statekGracza.speed;
+             statekGracza.xPos += Gdx.graphics.getDeltaTime() * (statekGracza.speed+30);
          if(Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)){
-             statekGracza.yPos += Gdx.graphics.getDeltaTime() * statekGracza.speed;
-             if(backgroundOffset<127)
+             statekGracza.yPos += Gdx.graphics.getDeltaTime() * (statekGracza.speed-20);
+             if(backgroundOffset<139)
              {
              backgroundOffset=backgroundOffset+1;
              }}
@@ -115,10 +122,11 @@ class GameScreen implements Screen{
              statekGracza.yPos -= Gdx.graphics.getDeltaTime() * statekGracza.speed;
 
 
+
          //Strzal
          if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            bullets.add(new Bullet(60, (float) (statekGracza.xPos+7.6), (statekGracza.yPos+7), 5,10,bulletTexture));
-            bullets.add(new Bullet(60, (float) (statekGracza.xPos+2.5), statekGracza.yPos+7, 5,10,bulletTexture));
+            bullets.add(new Bullet(60, (float) (statekGracza.xPos+7.3), statekGracza.yPos+15, 12,12,bulletTexture));
+            bullets.add(new Bullet(60, (float) (statekGracza.xPos+22.9), statekGracza.yPos+15, 12,12,bulletTexture));
 
          }
 
@@ -151,13 +159,13 @@ class GameScreen implements Screen{
                     if(enemy.enemyHP==0)
                     {   statekGracza.points++;
                         enemiesToRemove.add(enemy);
-                        explosionList.add(new Explosion(explosionTexture,new Rectangle(enemy.randomPositionX,enemy.yPos,10,10),0.7f));
+                        explosionList.add(new Explosion(explosionTexture,new Rectangle(enemy.randomPositionX,enemy.yPos,25,25),0.7f));
                     }
 
                 }
             }
 
-            enemy.enemyMovement(WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
+            enemy.enemyMovement( WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
             if (enemy.remove)
                 enemiesToRemove.add(enemy);
         }
@@ -169,7 +177,7 @@ class GameScreen implements Screen{
 
          clock += Gdx.graphics.getDeltaTime();
          if (clock>1) {
-                enemies.add(new Enemy(30,(int) ((Math.random() * (70 - 3)) + 1),WORLD_HEIGHT,5,8,15,statekPrzeciwnika1Texture));
+                enemies.add(new Enemy(30,(int) (Math.random() * (200)) + 10,WORLD_HEIGHT,5,25,25,statekPrzeciwnika1Texture));
              clock = 0; // reset your variable to 0
          }
 
@@ -181,12 +189,15 @@ class GameScreen implements Screen{
          statekGracza.draw(batch);
 
 
+         GlyphLayout scoreLayout = new GlyphLayout(scoreFont,"Points: "+statekGracza.points);
+         scoreFont.draw(batch,scoreLayout, 5,WORLD_HEIGHT);
+
 
 
          //POCISKI
 //
         for (Bullet bullet : bullets){
-            bullet.bulletMovement(WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
+            bullet.bulletMovement( WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
             if (bullet.remove)
                 bulletsToRemove.add(bullet);
 
@@ -201,9 +212,23 @@ class GameScreen implements Screen{
 
          renderExplosions(delta);
          //explosions
+
+
+
         batch.end();
      }
 
+
+//    private void updateAndRenderHUD()
+//    {
+//        font.draw(batch,"Score",hudLeftX,hudRow1Y,hudSectionWidth, Align.left,false);
+//        font.draw(batch,"Time for boss", hudCentreX,hudRow1Y,hudSectionWidth,Align.center,false);
+//        font.draw(batch,"Health", hudRightX,hudRow1Y,hudSectionWidth, Align.right,false);
+//
+//        font.draw(batch,String.format(Locale.getDefault(),"%06d",statekGracza.points),hudLeftX,hudRow2Y,hudSectionWidth,Align.left,false);
+//        font.draw(batch,String.format(Locale.getDefault(),"%02d",321),hudCentreX,hudRow2Y,hudSectionWidth,Align.center,false);
+//        font.draw(batch,String.format(Locale.getDefault(),"%02d",statekGracza.healthPoints),hudRightX,hudRow2Y,hudSectionWidth, Align.right,false);
+//    }
      private void renderExplosions(float deltaTime){
         ListIterator<Explosion> explosionListIterator = explosionList.listIterator();
         while (explosionListIterator.hasNext()){
