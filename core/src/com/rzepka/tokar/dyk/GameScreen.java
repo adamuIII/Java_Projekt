@@ -28,7 +28,7 @@ class GameScreen implements Screen{
     //Aby zaoszczedzic miejce wszystkie uzywane grafiki laczymy w jedna za pomoca gdx-texturpackera
     private TextureAtlas textureAtlas;
     private TextureRegion background;
-    private TextureRegion statekGraczaTexture, statekPrzeciwnika1Texture,statekPrzeciwnika2Texture,statekPrzeciwnika3Texture,bulletTexture,gamebackground;
+    private TextureRegion statekGraczaTexture, statekPrzeciwnika1Texture,statekPrzeciwnika2Texture,bossTexture,bulletTexture,gamebackground;
 
 //    private Texture background;
 
@@ -48,6 +48,7 @@ class GameScreen implements Screen{
     ArrayList<Bullet> bullets;
     ArrayList<Enemy> enemies;
     private LinkedList<Explosion> explosionList;
+    private Boss boss;
     //Bedziemy mieli duza ilosc pociskow dlatego umiescimy je w LinkedList
 
     BitmapFont scoreFont,healthFont;
@@ -69,6 +70,7 @@ class GameScreen implements Screen{
         statekGraczaTexture = textureAtlas.findRegion("Spaceship_06_GREEN");
         bulletTexture = textureAtlas.findRegion("Flame");
         statekPrzeciwnika1Texture = textureAtlas.findRegion("Spaceship_01_RED");
+        bossTexture = textureAtlas.findRegion("Spaceship_04_RED");
         explosionTexture = new Texture("explosion.png");
 
         //NOWE
@@ -80,7 +82,9 @@ class GameScreen implements Screen{
         //tworzenie objektow gry na ekranie
             //tworzenie statku gracza:
         statekGracza = new Player(60, 3, WORLD_WIDTH/2, WORLD_HEIGHT/4,30,30,statekGraczaTexture);
-            //tworzenie pociskow gracza:
+        boss = new Boss(50,30,WORLD_WIDTH/2-35,WORLD_HEIGHT-60,70,70,bossTexture);
+
+        //tworzenie pociskow gracza:
           bullets = new ArrayList<Bullet>();
           enemies = new ArrayList<Enemy>();
             //tworzenie eksplozji
@@ -117,6 +121,7 @@ class GameScreen implements Screen{
              }}
          if(Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN))
              statekGracza.yPos -= Gdx.graphics.getDeltaTime() * statekGracza.speed;
+
 
 
 
@@ -179,7 +184,15 @@ class GameScreen implements Screen{
                 enemies.add(new Enemy(30,(int) (Math.random() * (200)) + 10,WORLD_HEIGHT,5,25,25,statekPrzeciwnika1Texture));
              clock = 0; // reset your variable to 0
          }
+        //Zatrzymanie spawnu przeciwnikow i stworzenie Bosa
+        if(statekGracza.points>=50)
+        {
 
+            background =  textureAtlas.findRegion("badlogic");
+         clock =0;
+            boss.draw(batch);
+
+        }
 
          //gracz
 
