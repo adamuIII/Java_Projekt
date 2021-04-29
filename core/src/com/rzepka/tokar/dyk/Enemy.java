@@ -29,8 +29,18 @@ public class Enemy {
         yPos=yPos-GETTIME*enemySpeed;
         if(yPos<0)
         {
+
             remove=true;
         }
+    }
+
+    public float odejmijHP(int WORLD_HEIGHT,float hp)
+    {
+        if(yPos<0)
+        {
+            hp--;
+        }
+        return hp;
     }
 
     public boolean intersects(Rectangle otherRectangle){

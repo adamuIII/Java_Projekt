@@ -4,21 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.security.AlgorithmConstraints;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
-import java.util.Locale;
 
 class GameScreen implements Screen{
 
@@ -55,7 +50,7 @@ class GameScreen implements Screen{
     private LinkedList<Explosion> explosionList;
     //Bedziemy mieli duza ilosc pociskow dlatego umiescimy je w LinkedList
 
-    BitmapFont scoreFont;
+    BitmapFont scoreFont,healthFont;
 
 
     GameScreen(){
@@ -77,8 +72,10 @@ class GameScreen implements Screen{
         explosionTexture = new Texture("explosion.png");
 
         //NOWE
-        scoreFont = new BitmapFont(Gdx.files.internal("betterfont.fnt"));
-
+        scoreFont = new BitmapFont(Gdx.files.internal("font.fnt"));
+        scoreFont.getData().setScale((float) 0.2);
+        healthFont = new BitmapFont(Gdx.files.internal("font.fnt"));
+        healthFont.getData().setScale((float) 0.2);
 
         //tworzenie objektow gry na ekranie
             //tworzenie statku gracza:
@@ -157,7 +154,7 @@ class GameScreen implements Screen{
                     bulletsToRemove.add(bullet);
                     enemy.enemyHP--;
                     if(enemy.enemyHP==0)
-                    {   statekGracza.points++;
+                    {   statekGracza.points+=10;
                         enemiesToRemove.add(enemy);
                         explosionList.add(new Explosion(explosionTexture,new Rectangle(enemy.randomPositionX,enemy.yPos,25,25),0.7f));
                     }
@@ -166,6 +163,8 @@ class GameScreen implements Screen{
             }
 
             enemy.enemyMovement( WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
+
+            statekGracza.healthPoints=enemy.odejmijHP(WORLD_HEIGHT, statekGracza.healthPoints);
             if (enemy.remove)
                 enemiesToRemove.add(enemy);
         }
@@ -182,8 +181,6 @@ class GameScreen implements Screen{
          }
 
 
-
-
          //gracz
 
          statekGracza.draw(batch);
@@ -191,6 +188,9 @@ class GameScreen implements Screen{
 
          GlyphLayout scoreLayout = new GlyphLayout(scoreFont,"Points: "+statekGracza.points);
          scoreFont.draw(batch,scoreLayout, 5,WORLD_HEIGHT);
+         GlyphLayout healthLayout = new GlyphLayout(healthFont,"Health: "+(int)statekGracza.healthPoints);
+         healthFont.draw(batch,healthLayout,215,WORLD_HEIGHT);
+
 
 
 
@@ -209,6 +209,11 @@ class GameScreen implements Screen{
         }
 
 
+        if(statekGracza.healthPoints<=0)
+        {
+            Gdx.app.exit();
+        }
+
 
          renderExplosions(delta);
          //explosions
@@ -219,16 +224,7 @@ class GameScreen implements Screen{
      }
 
 
-//    private void updateAndRenderHUD()
-//    {
-//        font.draw(batch,"Score",hudLeftX,hudRow1Y,hudSectionWidth, Align.left,false);
-//        font.draw(batch,"Time for boss", hudCentreX,hudRow1Y,hudSectionWidth,Align.center,false);
-//        font.draw(batch,"Health", hudRightX,hudRow1Y,hudSectionWidth, Align.right,false);
-//
-//        font.draw(batch,String.format(Locale.getDefault(),"%06d",statekGracza.points),hudLeftX,hudRow2Y,hudSectionWidth,Align.left,false);
-//        font.draw(batch,String.format(Locale.getDefault(),"%02d",321),hudCentreX,hudRow2Y,hudSectionWidth,Align.center,false);
-//        font.draw(batch,String.format(Locale.getDefault(),"%02d",statekGracza.healthPoints),hudRightX,hudRow2Y,hudSectionWidth, Align.right,false);
-//    }
+
      private void renderExplosions(float deltaTime){
         ListIterator<Explosion> explosionListIterator = explosionList.listIterator();
         while (explosionListIterator.hasNext()){
