@@ -34,7 +34,7 @@ public class Enemy {
         }
     }
 
-    public float odejmijHP(int WORLD_HEIGHT,float hp)
+    public float odejmijHP(float hp)
     {
         if(yPos<0)
         {

@@ -110,31 +110,8 @@ class GameScreen implements Screen{
         batch.begin();
 
         //Input klawiszy
-            //Poruszanie sie
-         if(Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT))
-             statekGracza.xPos -= Gdx.graphics.getDeltaTime() * (statekGracza.speed+30);
-         if(Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT))
-             statekGracza.xPos += Gdx.graphics.getDeltaTime() * (statekGracza.speed+30);
-         if(Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)){
-             statekGracza.yPos += Gdx.graphics.getDeltaTime() * (statekGracza.speed-20);
-             if(backgroundOffset<139)
-             {
-             backgroundOffset=backgroundOffset+1;
-             }}
-         if(Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN))
-             statekGracza.yPos -= Gdx.graphics.getDeltaTime() * statekGracza.speed;
-
-
-
-
-         //Strzal
-         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            bullets.add(new Bullet(60, (float) (statekGracza.xPos+7.3), statekGracza.yPos+15, 12,12,bulletTexture));
-            bullets.add(new Bullet(60, (float) (statekGracza.xPos+22.9), statekGracza.yPos+15, 12,12,bulletTexture));
-
-         }
-
-
+            //Poruszanie sie i strzelanie
+         keyInput();
 
         //scrolling background
         backgroundOffset++;
@@ -149,9 +126,84 @@ class GameScreen implements Screen{
 
 
 
-         ///////////////////////////przeciwnicy///////////////////////////
+         //Utworzenie listy przeciwników oraz pocisków
          ArrayList<Enemy> enemiesToRemove = new ArrayList<Enemy>();
          ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
+
+         //Metody przeciwników oraz wykrywanie kolizji
+        PrzeciwnicyIkolizja(enemiesToRemove,bulletsToRemove);
+        //Spawn przeciwnikow co podana ilosc sekund
+        SpawnPrzeciwnikaCoXsec(1);
+
+        //Zatrzymanie spawnu przeciwnikow i stworzenie Bosa
+        if(statekGracza.points>=50)
+        {
+            boss.draw(batch);
+            clock =0;
+            background =  textureAtlas.findRegion("badlogic");
+        }
+
+        //rysowanie gracza
+         statekGracza.draw(batch);
+
+         //Wygenerowanie napisów Ilość zdobytych punktów oraz Ilość punktów życia
+         Napisy();
+
+         //POCISKI
+        for (Bullet bullet : bullets){
+            bullet.bulletMovement( WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
+            if (bullet.remove)
+                bulletsToRemove.add(bullet);
+
+        }
+        bullets.removeAll(bulletsToRemove);
+
+        for (Bullet bullet : bullets){
+            bullet.draw(batch);
+        }
+
+    //Wyjście z aplikacji po przegranej
+        if(statekGracza.healthPoints<=0)
+        {
+            Gdx.app.exit();
+        }
+
+         //Renderowanie eksplozji
+         renderExplosions(delta);
+
+
+
+        batch.end();
+     }
+
+
+     private void keyInput(){
+         if(Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT))
+             statekGracza.xPos -= Gdx.graphics.getDeltaTime() * (statekGracza.speed+30);
+         if(Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT))
+             statekGracza.xPos += Gdx.graphics.getDeltaTime() * (statekGracza.speed+30);
+         if(Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)){
+             statekGracza.yPos += Gdx.graphics.getDeltaTime() * (statekGracza.speed-20);
+             if(backgroundOffset<139)
+             {
+                 backgroundOffset=backgroundOffset+1;
+             }}
+         if(Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN))
+             statekGracza.yPos -= Gdx.graphics.getDeltaTime() * statekGracza.speed;
+
+         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+             bullets.add(new Bullet(60, (float) (statekGracza.xPos+7.3), statekGracza.yPos+15, 12,12,bulletTexture));
+             bullets.add(new Bullet(60, (float) (statekGracza.xPos+22.9), statekGracza.yPos+15, 12,12,bulletTexture));
+
+         }
+     }
+     private void Napisy(){
+         GlyphLayout scoreLayout = new GlyphLayout(scoreFont,"Points: "+statekGracza.points);
+         scoreFont.draw(batch,scoreLayout, 5,WORLD_HEIGHT);
+         GlyphLayout healthLayout = new GlyphLayout(healthFont,"Health: "+(int)statekGracza.healthPoints);
+         healthFont.draw(batch,healthLayout,215,WORLD_HEIGHT);
+     }
+    private void PrzeciwnicyIkolizja(ArrayList enemiesToRemove,ArrayList bulletsToRemove){
         for(Enemy enemy : enemies){
             for (Bullet bullet: bullets){
 
@@ -169,79 +221,34 @@ class GameScreen implements Screen{
                 }
 
             }
+            enemy.enemyMovement(WORLD_HEIGHT, Gdx.graphics.getDeltaTime());
+        }
 
-            enemy.enemyMovement( WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
 
 
-            statekGracza.healthPoints=enemy.odejmijHP(WORLD_HEIGHT, statekGracza.healthPoints);
+        for(Enemy enemy: enemies) {
+            statekGracza.healthPoints = enemy.odejmijHP(statekGracza.healthPoints);
             if (enemy.remove)
                 enemiesToRemove.add(enemy);
         }
+
+        //Dodanie tekstury do przeciwnika
         enemies.removeAll(enemiesToRemove);
-         for (Enemy enemy : enemies){
-             enemy.draw(batch);
-         }
-
-
-
-        //Zatrzymanie spawnu przeciwnikow i stworzenie Bosa
-        if(statekGracza.points>=50)
-        {
-            boss.draw(batch);
-            clock =0;
-            background =  textureAtlas.findRegion("badlogic");
-        }
-         clock += Gdx.graphics.getDeltaTime();
-         if (clock>1) {
-             enemies.add(new Enemy(30,(int) (Math.random() * (200)) + 10,WORLD_HEIGHT,5,25,25,statekPrzeciwnika1Texture));
-             clock = 0; // reset your variable to 0
-         }
-         //gracz
-
-         statekGracza.draw(batch);
-
-
-         GlyphLayout scoreLayout = new GlyphLayout(scoreFont,"Points: "+statekGracza.points);
-         scoreFont.draw(batch,scoreLayout, 5,WORLD_HEIGHT);
-         GlyphLayout healthLayout = new GlyphLayout(healthFont,"Health: "+(int)statekGracza.healthPoints);
-         healthFont.draw(batch,healthLayout,215,WORLD_HEIGHT);
-
-
-
-
-         //POCISKI
-
-        for (Bullet bullet : bullets){
-            bullet.bulletMovement( WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
-            if (bullet.remove)
-                bulletsToRemove.add(bullet);
-
-        }
-        bullets.removeAll(bulletsToRemove);
-
-        for (Bullet bullet : bullets){
-            bullet.draw(batch);
+        for (Enemy enemy : enemies){
+            enemy.draw(batch);
         }
 
 
-        if(statekGracza.healthPoints<=0)
-        {
-//            Gdx.app.exit();
+    }
+
+    private void SpawnPrzeciwnikaCoXsec(int SprawnTime)
+    {
+        clock += Gdx.graphics.getDeltaTime();
+        if (clock>SprawnTime) {
+            enemies.add(new Enemy(30,(int) (Math.random() * (200)) + 10,WORLD_HEIGHT,5,25,25,statekPrzeciwnika1Texture));
+            clock = 0; // reset your variable to 0
         }
-
-
-         renderExplosions(delta);
-         //explosions
-
-
-
-        batch.end();
-     }
-
-
-     private void keyInput(float deltaTime){
-
-     }
+    }
 
 
      private void renderExplosions(float deltaTime){
