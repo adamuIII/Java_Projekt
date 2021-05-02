@@ -2,6 +2,7 @@ package com.rzepka.tokar.dyk;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 
 public class Player {
 
@@ -35,6 +36,11 @@ public class Player {
     //Tworzenie statku na ekranie
     public void draw(Batch batch){
         batch.draw(playerGraphics, xPos ,yPos,width,height);
+    }
+
+    public boolean intersects(Rectangle otherRectangle){
+        Rectangle thisRectangle = new Rectangle(xPos,yPos,width,height);
+        return thisRectangle.overlaps(otherRectangle);
     }
 
 

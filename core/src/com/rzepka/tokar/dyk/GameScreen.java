@@ -36,6 +36,7 @@ class GameScreen implements Screen{
      //timing
     private int backgroundOffset;
     float clock=0;
+
     //world parameters
  //   private final int WORLD_WIDTH = 72;
     //  private final int WORLD_HEIGHT = 128;
@@ -81,7 +82,7 @@ class GameScreen implements Screen{
 
         //tworzenie objektow gry na ekranie
             //tworzenie statku gracza:
-        statekGracza = new Player(60, 3, WORLD_WIDTH/2, WORLD_HEIGHT/4,30,30,statekGraczaTexture);
+        statekGracza = new Player(60, 20, WORLD_WIDTH/2, WORLD_HEIGHT/4,30,30,statekGraczaTexture);
         boss = new Boss(50,30,WORLD_WIDTH/2-35,WORLD_HEIGHT-60,70,70,bossTexture);
 
         //tworzenie pociskow gracza:
@@ -89,6 +90,7 @@ class GameScreen implements Screen{
           enemies = new ArrayList<Enemy>();
             //tworzenie eksplozji
           explosionList = new LinkedList<>();
+
 
 
 
@@ -148,11 +150,11 @@ class GameScreen implements Screen{
 
 
          ///////////////////////////przeciwnicy///////////////////////////
-
          ArrayList<Enemy> enemiesToRemove = new ArrayList<Enemy>();
          ArrayList<Bullet> bulletsToRemove = new ArrayList<Bullet>();
         for(Enemy enemy : enemies){
             for (Bullet bullet: bullets){
+
                 //kolizja i usuniecie przeciwnika
                 if (enemy.intersects(bullet.getHitBox())){
 
@@ -165,9 +167,11 @@ class GameScreen implements Screen{
                     }
 
                 }
+
             }
 
             enemy.enemyMovement( WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
+
 
             statekGracza.healthPoints=enemy.odejmijHP(WORLD_HEIGHT, statekGracza.healthPoints);
             if (enemy.remove)
@@ -179,21 +183,19 @@ class GameScreen implements Screen{
          }
 
 
-         clock += Gdx.graphics.getDeltaTime();
-         if (clock>1) {
-                enemies.add(new Enemy(30,(int) (Math.random() * (200)) + 10,WORLD_HEIGHT,5,25,25,statekPrzeciwnika1Texture));
-             clock = 0; // reset your variable to 0
-         }
+
         //Zatrzymanie spawnu przeciwnikow i stworzenie Bosa
         if(statekGracza.points>=50)
         {
-
-            background =  textureAtlas.findRegion("badlogic");
-         clock =0;
             boss.draw(batch);
-
+            clock =0;
+            background =  textureAtlas.findRegion("badlogic");
         }
-
+         clock += Gdx.graphics.getDeltaTime();
+         if (clock>1) {
+             enemies.add(new Enemy(30,(int) (Math.random() * (200)) + 10,WORLD_HEIGHT,5,25,25,statekPrzeciwnika1Texture));
+             clock = 0; // reset your variable to 0
+         }
          //gracz
 
          statekGracza.draw(batch);
@@ -208,7 +210,7 @@ class GameScreen implements Screen{
 
 
          //POCISKI
-//
+
         for (Bullet bullet : bullets){
             bullet.bulletMovement( WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
             if (bullet.remove)
@@ -224,7 +226,7 @@ class GameScreen implements Screen{
 
         if(statekGracza.healthPoints<=0)
         {
-            Gdx.app.exit();
+//            Gdx.app.exit();
         }
 
 
@@ -236,6 +238,10 @@ class GameScreen implements Screen{
         batch.end();
      }
 
+
+     private void keyInput(float deltaTime){
+
+     }
 
 
      private void renderExplosions(float deltaTime){

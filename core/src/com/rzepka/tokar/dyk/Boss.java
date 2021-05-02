@@ -22,11 +22,8 @@ public class Boss {
 
     public void draw(Batch batch)
 
-    //  batch.draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation);
     {
-       // batch.draw(bossGraphics, xPos ,yPos,width,height);
         batch.draw(bossGraphics, xPos-110, yPos-90, xPos, yPos, width, height, 1, 1, 180);
-
     }
 
 }
