@@ -27,6 +27,7 @@ public class Enemy {
 
     public void enemyMovement(int WORLD_HEIGHT, float GETTIME){
         yPos=yPos-GETTIME*enemySpeed;
+
         if(yPos<0)
         {
 

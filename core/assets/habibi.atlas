@@ -26,7 +26,7 @@ Spaceship_02_RED
   offset: 0, 0
   index: -1
 Spaceship_04_RED
-  rotate: false
+  rotate: 180
   xy: 1028, 1492
   size: 500, 500
   orig: 500, 500

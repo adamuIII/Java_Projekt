@@ -39,7 +39,7 @@ class GameScreen implements Screen{
     float clockEnemyBullet=0;
     boolean bossDestroyed = false;
     int bossesDestroyed = 0;
-    int iloscPotrzebnychPkt =100;
+    int iloscPotrzebnychPkt =0;
     public float spawntime =2;
     float clockForBoss=0;
 
@@ -80,7 +80,7 @@ class GameScreen implements Screen{
         statekPrzeciwnika1Texture = textureAtlas.findRegion("Spaceship_01_RED");
         bossTexture = textureAtlas.findRegion("Spaceship_04_RED");
         explosionTexture = new Texture("explosion.png");
-
+        bossTexture.flip(true,true);
         //NOWE
         scoreFont = new BitmapFont(Gdx.files.internal("font.fnt"));
         scoreFont.getData().setScale((float) 0.2);
@@ -120,6 +120,9 @@ class GameScreen implements Screen{
         //Input klawiszy
             //Poruszanie sie i strzelanie
          keyInput();
+
+
+
 
         //scrolling background
         backgroundOffset++;
@@ -170,16 +173,13 @@ class GameScreen implements Screen{
          if(bossDestroyed ==false){
              clock=0;
              if(bosses.size()<1){
-            bosses.add(new Boss(60,30,WORLD_WIDTH/2-35,WORLD_HEIGHT-60,70,70,bossTexture));}
-             System.out.println(bosses.size());
+            bosses.add(new Boss(60,30,WORLD_WIDTH/2-60,WORLD_HEIGHT-58,70,70,bossTexture));}
              for(Boss boss:bosses){
                  {
                      boss.draw(batch);
                      background =  textureAtlas.findRegion("badlogic");
                      clockEnemyBullet+=Gdx.graphics.getDeltaTime();
                      clockForBoss+=Gdx.graphics.getDeltaTime();
-                     boss.bossMovement(delta,WORLD_WIDTH,clockForBoss);
-
                      if(clockEnemyBullet>1)
                      {
                          enemyBullets.add(new EnemyBullet(90,boss.xPos+8,boss.yPos+20,20,20,bulletTexture));
@@ -188,6 +188,9 @@ class GameScreen implements Screen{
                          enemyBullets.add(new EnemyBullet(60, (float) (boss.xPos + 19), boss.yPos + 20, 20, 20, bulletTexture));
                          clockEnemyBullet=0;
                      }
+                    boss.bossMovement(delta,WORLD_WIDTH,(int)clockForBoss);
+
+
                  }
                  for(Bullet bullet: bullets){
                      if(boss.intersectsBoss(bullet.getHitBox())){
@@ -212,7 +215,7 @@ class GameScreen implements Screen{
              bosses.removeAll(BossToRemove);
          }
          }
-         System.out.println("tyle potrzebuje: "+iloscPotrzebnychPkt+"tyle mam: "+statekGracza.points);
+
 
 
 
@@ -279,6 +282,8 @@ class GameScreen implements Screen{
              }
          }
      }
+
+
      private void Napisy(){
          GlyphLayout scoreLayout = new GlyphLayout(scoreFont,"Points: "+statekGracza.points);
          scoreFont.draw(batch,scoreLayout, 5,WORLD_HEIGHT);
