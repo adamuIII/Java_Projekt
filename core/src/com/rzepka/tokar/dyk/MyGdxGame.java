@@ -6,11 +6,26 @@ import com.badlogic.gdx.Game;
 public class MyGdxGame extends Game {
 
 	GameScreen gameScreen;
+	Menu menu;
+	boolean czyZmienic = false;
 
 	@Override
 	public void create() {
 		gameScreen = new GameScreen();
+		menu = new Menu();
+		try{
+		setScreen(menu);}
+		catch(Exception e){
+			System.out.println("dududpa");
+		}
+
 		setScreen(gameScreen);
+//
+//		if(czyZmienic==true)
+//		{
+//			setScreen(gameScreen);
+//
+//		}
 
 	}
 
