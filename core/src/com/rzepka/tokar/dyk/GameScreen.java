@@ -39,7 +39,7 @@ class GameScreen implements Screen{
     float clockEnemyBullet=0;
     boolean bossDestroyed = false;
     int bossesDestroyed = 0;
-    int iloscPotrzebnychPkt =0;
+    int iloscPotrzebnychPkt =100;
     public float spawntime =2;
     float clockForBoss=0;
 

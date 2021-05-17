@@ -12,22 +12,15 @@ public class MyGdxGame extends Game {
 	@Override
 	public void create() {
 		gameScreen = new GameScreen();
-		menu = new Menu();
-		try{
-		setScreen(menu);}
-		catch(Exception e){
-			System.out.println("dududpa");
-		}
-
-		setScreen(gameScreen);
-//
-//		if(czyZmienic==true)
-//		{
-//			setScreen(gameScreen);
-//
-//		}
-
+		menu = new Menu(this);
+		setScreen(menu);
 	}
+
+	public void setScreenToGame(){
+		gameScreen = new GameScreen();
+		setScreen(gameScreen);
+	}
+
 
 	@Override
 	public void dispose() {
