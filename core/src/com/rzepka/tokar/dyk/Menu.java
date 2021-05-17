@@ -2,6 +2,7 @@ package com.rzepka.tokar.dyk;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -13,6 +14,9 @@ public class Menu implements Screen {
     private SpriteBatch batch;
     Texture menubackground,playButton,playButtonActive,infoButton,infoButtonActive,exitButton,exitButtonActive;
     private MyGdxGame game;
+    Sound infocus;
+    public float volume = 0.5F;
+    public long id;
 
 
     public Menu(MyGdxGame game){
@@ -37,13 +41,14 @@ public class Menu implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1,0,2,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        infocus = Gdx.audio.newSound(Gdx.files.internal("infocus.mp3"));
         batch.begin();
         batch.draw(menubackground,0,0,1800,900);
-
         if(Gdx.input.getX()>86 && Gdx.input.getX()<436&&Gdx.input.getY()>200&&Gdx.input.getY()<350){
             batch.draw(playButtonActive,86,500,350,150);
             if(Gdx.input.justTouched())
             {
+                infocus.play(volume);
                 game.setScreenToGame();
             }
 
@@ -52,6 +57,10 @@ public class Menu implements Screen {
         }
         if(Gdx.input.getX()>86 && Gdx.input.getX()<436&&Gdx.input.getY()>400&&Gdx.input.getY()<550){
             batch.draw(infoButtonActive,86,300,350,150);
+            if(Gdx.input.justTouched())
+            {
+                infocus.play(volume);
+            }
         }else{
             batch.draw(infoButton,86,300,350,150);
         }
@@ -59,6 +68,7 @@ public class Menu implements Screen {
             batch.draw(exitButtonActive,86,100,350,150);
             if(Gdx.input.isTouched())
             {
+                infocus.play();
                 Gdx.app.exit();
             }
         }else{

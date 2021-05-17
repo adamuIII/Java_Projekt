@@ -3,6 +3,7 @@ package com.rzepka.tokar.dyk;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -61,6 +62,8 @@ class GameScreen implements Screen{
 
     BitmapFont scoreFont,healthFont;
 
+    Sound shootsound;
+    Sound bossshoot;
 
     GameScreen(){
         //2d camera
@@ -99,9 +102,8 @@ class GameScreen implements Screen{
             //tworzenie eksplozji
           explosionList = new LinkedList<>();
 
-
-
-
+        //dzwink
+        shootsound = Gdx.audio.newSound(Gdx.files.internal("shoot.mp3"));
         batch = new SpriteBatch();
 
 
@@ -272,6 +274,7 @@ class GameScreen implements Screen{
              statekGracza.yPos -= Gdx.graphics.getDeltaTime() * statekGracza.speed;
 
          if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+             shootsound.play();
              bullets.add(new Bullet(60, (float) (statekGracza.xPos+7.3), statekGracza.yPos+15, 12,12,bulletTexture));
              bullets.add(new Bullet(60, (float) (statekGracza.xPos+22.9), statekGracza.yPos+15, 12,12,bulletTexture));
             if(bossesDestroyed>=1) {
