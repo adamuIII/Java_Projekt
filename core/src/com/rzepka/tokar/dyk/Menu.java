@@ -16,8 +16,6 @@ public class Menu implements Screen {
     private MyGdxGame game;
     Sound infocus;
     public float volume = 0.5F;
-    public long id;
-
 
     public Menu(MyGdxGame game){
         batch=new SpriteBatch();
@@ -30,7 +28,6 @@ public class Menu implements Screen {
         exitButtonActive = new Texture("exitButtonActive.png");
         this.game = game;
     }
-
 
     @Override
     public void show() {
@@ -60,6 +57,7 @@ public class Menu implements Screen {
             if(Gdx.input.justTouched())
             {
                 infocus.play(volume);
+                game.setScreenToInfo();
             }
         }else{
             batch.draw(infoButton,86,300,350,150);

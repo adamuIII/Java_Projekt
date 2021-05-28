@@ -46,7 +46,6 @@ public class Boss {
         {
             if(xPos>=WORLD_WIDTH)
             {
-                System.out.println("dupa");
                 zmianaKierunku=false;
             }
             xPos=xPos+GETTIME*speed;
@@ -57,7 +56,6 @@ public class Boss {
 
             if(xPos<=0)
             {
-                System.out.println("dupa");
                 zmianaKierunku=true;
             }
             xPos=xPos-GETTIME*speed;

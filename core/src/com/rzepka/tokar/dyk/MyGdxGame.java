@@ -8,6 +8,7 @@ import com.badlogic.gdx.audio.*;
 public class MyGdxGame extends Game {
 
 	GameScreen gameScreen;
+	Info info;
 	Menu menu;
 	Music audio;
 	boolean czyZmienic = false;
@@ -31,6 +32,15 @@ public class MyGdxGame extends Game {
 		audio.setVolume(0.2f);
 		audio.setLooping(true);
 		audio.play();
+	}
+	public void setScreenToInfo(){
+		info = new Info(this);
+		setScreen(info);
+
+	}
+	public void setScreenToMenu(){
+		menu = new Menu(this);
+		setScreen(menu);
 	}
 
 

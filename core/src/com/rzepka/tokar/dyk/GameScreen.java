@@ -45,8 +45,8 @@ class GameScreen implements Screen{
     float clockForBoss=0;
 
     //world parameters
- //   private final int WORLD_WIDTH = 72;
-    //  private final int WORLD_HEIGHT = 128;
+    //private final int WORLD_WIDTH = 72;
+    //private final int WORLD_HEIGHT = 128;
     private final int WORLD_WIDTH = 250;
     private final int WORLD_HEIGHT = 140;
 
