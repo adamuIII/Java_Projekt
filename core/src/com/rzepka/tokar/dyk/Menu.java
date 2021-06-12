@@ -48,7 +48,7 @@ public class Menu implements Screen {
             if(Gdx.input.justTouched())
             {
                 infocus.play(volume);
-                game.setScreenToKoniec();
+                game.setScreenToGame();
             }
 
         }else{
