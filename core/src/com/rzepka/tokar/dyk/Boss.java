@@ -44,7 +44,7 @@ public class Boss {
         System.out.println(xPos);
         if(zmianaKierunku)
         {
-            if(xPos>=WORLD_WIDTH)
+            if(xPos>=WORLD_WIDTH-width)
             {
                 zmianaKierunku=false;
             }
@@ -68,7 +68,6 @@ public class Boss {
     public void draw(Batch batch)
 
     {
-//        batch.draw(bossGraphics, xPos-110, yPos-90, xPos, yPos, width, height, 1, 1, 180);
         batch.draw(bossGraphics,xPos,yPos,width,height);
     }
 

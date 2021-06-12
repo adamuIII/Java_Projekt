@@ -41,9 +41,9 @@ public class Player {
         batch.draw(playerGraphics, xPos ,yPos,width,height);
     }
 
-    public boolean intersectsPlayer(Rectangle anotherRectangle){
-        Rectangle thisEnemyRectangle = new Rectangle(xPos,yPos,width,height);
-        return thisEnemyRectangle.overlaps(anotherRectangle);
+    public boolean intersectsPlayer(Rectangle otherRectangle){
+        Rectangle thisRectangle = new Rectangle(xPos,yPos,width,height);
+        return thisRectangle.overlaps(otherRectangle);
     }
 
 

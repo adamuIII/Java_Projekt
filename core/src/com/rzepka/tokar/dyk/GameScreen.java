@@ -22,6 +22,8 @@ class GameScreen implements Screen{
     private Camera camera;
     private Viewport viewport;
 
+    private MyGdxGame game;
+
 
     //lista wszystkich grafik
     private SpriteBatch batch;
@@ -61,6 +63,8 @@ class GameScreen implements Screen{
     //Bedziemy mieli duza ilosc pociskow dlatego umiescimy je w LinkedList
 
     BitmapFont scoreFont,healthFont;
+
+    int ilosc_pokonanych_bosow=0;
 
     Sound shootsound;
     Sound bossshoot;
@@ -159,6 +163,10 @@ class GameScreen implements Screen{
          //POCISKI BOSSA
          for(EnemyBullet enemyBullet: enemyBullets){
              enemyBullet.EnemyBulletMovement(WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
+             if(statekGracza.intersectsPlayer(enemyBullet.getHitBoxEnemybullet())){
+                 EnemyBulletsToRemove.add(enemyBullet);
+                 statekGracza.healthPoints--;
+             }
              if(enemyBullet.remove)
                  EnemyBulletsToRemove.add(enemyBullet);
 
@@ -179,7 +187,7 @@ class GameScreen implements Screen{
              for(Boss boss:bosses){
                  {
                      boss.draw(batch);
-                     background =  textureAtlas.findRegion("badlogic");
+//                   background =  textureAtlas.findRegion("badlogic");
                      clockEnemyBullet+=Gdx.graphics.getDeltaTime();
                      clockForBoss+=Gdx.graphics.getDeltaTime();
                      if(clockEnemyBullet>1)
@@ -190,8 +198,8 @@ class GameScreen implements Screen{
                          enemyBullets.add(new EnemyBullet(60, (float) (boss.xPos + 19), boss.yPos + 20, 20, 20, bulletTexture));
                          clockEnemyBullet=0;
                      }
-                    boss.bossMovement(delta,WORLD_WIDTH,(int)clockForBoss);
 
+                    boss.bossMovement(delta,WORLD_WIDTH,(int)clockForBoss);
 
                  }
                  for(Bullet bullet: bullets){
@@ -202,6 +210,7 @@ class GameScreen implements Screen{
                          {
                              spawntime= (float) (spawntime/1.5);
                              bossesDestroyed++;
+                             ilosc_pokonanych_bosow++;
                              bullet.bulletSpeed=bullet.bulletSpeed*2;
                              iloscPotrzebnychPkt=iloscPotrzebnychPkt+(200*bossesDestroyed);
                              statekGracza.points+=100;
@@ -215,9 +224,9 @@ class GameScreen implements Screen{
                  }
              }
              bosses.removeAll(BossToRemove);
-         }
-         }
 
+         }
+         }
 
 
 
@@ -353,7 +362,13 @@ class GameScreen implements Screen{
                 explosion.draw(batch);
             }
         }
+        if(ilosc_pokonanych_bosow==5)
+        {
+//        game.setScreenToMenu();
+        }
      }
+
+
 
      @Override
      public void resize(int width, int height) {
@@ -381,3 +396,4 @@ class GameScreen implements Screen{
 
      }
  }
+

@@ -35,7 +35,9 @@ public class EnemyBullet {
     {
         batch.draw(enemyBulletGraphic,xpos,ypos,width,height);
     }
-    public Rectangle getHitBoxEnemybullet(){
-        return new Rectangle((int)xpos,(int)ypos,(int)width,(int)height);
+
+
+    public com.badlogic.gdx.math.Rectangle getHitBoxEnemybullet(){
+        return new com.badlogic.gdx.math.Rectangle(xpos,ypos,width,height);
     }
 }
