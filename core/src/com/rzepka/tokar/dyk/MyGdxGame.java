@@ -52,6 +52,10 @@ public class MyGdxGame extends Game {
 	 */
 	public void setScreenToInfo(){
 		info = new Info(this);
+		audio.stop();
+		audio = Gdx.audio.newMusic(Gdx.files.internal("info.mp3"));
+		audio.setVolume(0.2f);
+		audio.play();
 		setScreen(info);
 
 	}
@@ -72,6 +76,10 @@ public class MyGdxGame extends Game {
 	 */
 	public void setScreenToKoniec(){
 		koniecGry = new KoniecGry(this);
+		audio.stop();
+		audio = Gdx.audio.newMusic(Gdx.files.internal("end.mp3"));
+		audio.setVolume(0.2f);
+		audio.play();
 		setScreen(koniecGry);
 	}
 

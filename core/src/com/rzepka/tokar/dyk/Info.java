@@ -2,6 +2,7 @@ package com.rzepka.tokar.dyk;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -14,7 +15,8 @@ public class Info implements Screen {
     private SpriteBatch batch;
     Texture adamInfo,bartekInfo,temp;
     private MyGdxGame game;
-
+    Sound click;
+    public float volume = 0.5f;
 
     public Info(MyGdxGame game) {
         batch = new SpriteBatch();
@@ -38,22 +40,26 @@ public class Info implements Screen {
         batch.begin();
         System.out.println(Gdx.input.getY());
         batch.draw(temp,0,0,1800,900);
-        if(Gdx.input.getX()>1177 && Gdx.input.getX()<1255&&Gdx.input.getY()>752&&Gdx.input.getY()<805){
+        click = Gdx.audio.newSound(Gdx.files.internal("infocus.mp3"));
+        if(Gdx.input.getX()>1177 && Gdx.input.getX()<1255&&Gdx.input.getY()>805&&Gdx.input.getY()<858){
             if(Gdx.input.justTouched())
             {
+                  click.play(volume);
                   temp = adamInfo;
             }
         }
-        if(Gdx.input.getX()>1272 && Gdx.input.getX()<1346&&Gdx.input.getY()>752&&Gdx.input.getY()<805){
+        if(Gdx.input.getX()>1272 && Gdx.input.getX()<1346&&Gdx.input.getY()>805&&Gdx.input.getY()<858){
             if(Gdx.input.justTouched())
             {
+                    click.play(volume);
                     temp = bartekInfo;
             }
         }
 
-        if(Gdx.input.getX()>1366 && Gdx.input.getX()<1478&&Gdx.input.getY()>752&&Gdx.input.getY()<805){
+        if(Gdx.input.getX()>1366 && Gdx.input.getX()<1478&&Gdx.input.getY()>805&&Gdx.input.getY()<858){
             if(Gdx.input.justTouched())
             {
+                click.play(volume);
                 game.setScreenToMenu();
             }
         }
