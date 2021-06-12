@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.height = 1080;
 		config.width = 1980;
 //		config.fullscreen = true;
+		config.title = "Space Shooter";
 		new LwjglApplication(new MyGdxGame(), config);
 	}
 }

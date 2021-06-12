@@ -10,14 +10,15 @@ public class MyGdxGame extends Game {
 	GameScreen gameScreen;
 	Info info;
 	Menu menu;
+	KoniecGry koniecGry;
 	Music audio;
 	boolean czyZmienic = false;
 
 	@Override
 	public void create() {
 		audio = Gdx.audio.newMusic(Gdx.files.internal("menu.mp3"));
-		gameScreen = new GameScreen();
 		menu = new Menu(this);
+		gameScreen = new GameScreen(this);
 		setScreen(menu);
 		audio.setVolume(0.5f);
 		audio.setLooping(true);
@@ -25,7 +26,7 @@ public class MyGdxGame extends Game {
 	}
 
 	public void setScreenToGame(){
-		gameScreen = new GameScreen();
+		gameScreen = new GameScreen(this);
 		setScreen(gameScreen);
 		audio.stop();
 		audio = Gdx.audio.newMusic(Gdx.files.internal("game.mp3"));
@@ -42,7 +43,10 @@ public class MyGdxGame extends Game {
 		menu = new Menu(this);
 		setScreen(menu);
 	}
-
+	public void setScreenToKoniec(){
+		koniecGry = new KoniecGry(this);
+		setScreen(koniecGry);
+	}
 
 	@Override
 	public void dispose() {

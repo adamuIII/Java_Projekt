@@ -69,7 +69,7 @@ class GameScreen implements Screen{
     Sound shootsound;
     Sound bossshoot;
 
-    GameScreen(){
+    GameScreen(MyGdxGame game){
         //2d camera
         camera = new OrthographicCamera();
         viewport = new StretchViewport(WORLD_WIDTH,WORLD_HEIGHT,camera);
@@ -96,7 +96,7 @@ class GameScreen implements Screen{
 
         //tworzenie objektow gry na ekranie
             //tworzenie statku gracza:
-        statekGracza = new Player(60, 20, WORLD_WIDTH/2, WORLD_HEIGHT/4,30,30,statekGraczaTexture);
+        statekGracza = new Player(60, 1, WORLD_WIDTH/2, WORLD_HEIGHT/4,30,30,statekGraczaTexture);
 //        boss = new Boss(60,30,WORLD_WIDTH/2-35,WORLD_HEIGHT-60,70,70,bossTexture);
         bosses = new ArrayList<Boss>();
         //tworzenie pociskow gracza:
@@ -109,6 +109,8 @@ class GameScreen implements Screen{
         //dzwink
         shootsound = Gdx.audio.newSound(Gdx.files.internal("shoot.mp3"));
         batch = new SpriteBatch();
+
+        this.game = game;
 
 
     }
@@ -237,9 +239,6 @@ class GameScreen implements Screen{
 
 
 
-
-
-
          //POCISKI
         for (Bullet bullet : bullets){
             bullet.bulletMovement( WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
@@ -256,7 +255,7 @@ class GameScreen implements Screen{
     //Wyjście z aplikacji po przegranej
         if(statekGracza.healthPoints<=0)
         {
-            Gdx.app.exit();
+            game.setScreenToMenu();
         }
 
          //Renderowanie eksplozji
@@ -366,6 +365,7 @@ class GameScreen implements Screen{
         {
 //        game.setScreenToMenu();
         }
+
      }
 
 

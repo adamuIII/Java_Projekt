@@ -30,6 +30,7 @@ public class KoniecGry implements Screen {
         batch.begin();
 
         batch.draw(koniecgry,0,0);
+        batch.end();
     }
 
     @Override
