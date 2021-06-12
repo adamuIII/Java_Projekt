@@ -31,21 +31,21 @@ public class KoniecGry implements Screen {
     public void render(float v) {
 
         batch.begin();
-
+        System.out.println(Gdx.input.getY());
         batch.draw(koniecgry,-120,-60,1800,900);
-        if(Gdx.input.getX()>226 && Gdx.input.getX()<480&&Gdx.input.getY()>712&&Gdx.input.getY()<774){
+        if(Gdx.input.getX()>227 && Gdx.input.getX()<479&&Gdx.input.getY()>755&&Gdx.input.getY()<818){
             if(Gdx.input.justTouched())
             {
                 game.setScreenToGame();
             }
         }
-        if(Gdx.input.getX()>646 && Gdx.input.getX()<911&&Gdx.input.getY()>712&&Gdx.input.getY()<774){
+        if(Gdx.input.getX()>646 && Gdx.input.getX()<911&&Gdx.input.getY()>755&&Gdx.input.getY()<818){
             if(Gdx.input.justTouched())
             {
                 game.setScreenToMenu();
             }
         }
-        if(Gdx.input.getX()>1054 && Gdx.input.getX()<1308&&Gdx.input.getY()>712&&Gdx.input.getY()<774){
+        if(Gdx.input.getX()>1054 && Gdx.input.getX()<1308&&Gdx.input.getY()>755&&Gdx.input.getY()<818){
             if(Gdx.input.justTouched())
             {
                 Gdx.app.exit();
