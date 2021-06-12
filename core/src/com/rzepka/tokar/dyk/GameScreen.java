@@ -67,7 +67,7 @@ class GameScreen implements Screen{
     int ilosc_pokonanych_bosow=0;
 
     Sound shootsound;
-    Sound bossshoot;
+    Sound explosion;
 
     GameScreen(MyGdxGame game){
         //2d camera
@@ -108,6 +108,7 @@ class GameScreen implements Screen{
 
         //dzwink
         shootsound = Gdx.audio.newSound(Gdx.files.internal("shoot.mp3"));
+        explosion = Gdx.audio.newSound(Gdx.files.internal("boom.mp3"));
         batch = new SpriteBatch();
 
         this.game = game;
@@ -312,6 +313,7 @@ class GameScreen implements Screen{
                     enemy.enemyHP--;
                     if(enemy.enemyHP==0)
                     {   statekGracza.points+=10;
+                        explosion.play();
                         enemiesToRemove.add(enemy);
                         explosionList.add(new Explosion(explosionTexture,new Rectangle(enemy.randomPositionX,enemy.yPos,25,25),0.7f));
                     }

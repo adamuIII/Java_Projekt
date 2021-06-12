@@ -7,8 +7,8 @@ import com.rzepka.tokar.dyk.MyGdxGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.height = 1080;
-		config.width = 1980;
+		config.height = 900;
+		config.width = 1800;
 //		config.fullscreen = true;
 		config.title = "Space Shooter";
 		new LwjglApplication(new MyGdxGame(), config);

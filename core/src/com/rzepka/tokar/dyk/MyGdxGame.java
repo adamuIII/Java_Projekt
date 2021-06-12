@@ -41,6 +41,9 @@ public class MyGdxGame extends Game {
 	}
 	public void setScreenToMenu(){
 		menu = new Menu(this);
+		audio.stop();
+		audio = Gdx.audio.newMusic(Gdx.files.internal("menu.mp3"));
+		audio.play();
 		setScreen(menu);
 	}
 	public void setScreenToKoniec(){
