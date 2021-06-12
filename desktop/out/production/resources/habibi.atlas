@@ -1,0 +1,55 @@
+
+habibi.png
+size: 2048, 2048
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+Flame
+  rotate: false
+  xy: 2, 413
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: 1
+Spaceship_01_RED
+  rotate: false
+  xy: 2, 915
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+Spaceship_02_RED
+  rotate: false
+  xy: 504, 915
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+Spaceship_04_RED
+  rotate: 180
+  xy: 1028, 1492
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+Spaceship_06_GREEN
+  rotate: false
+  xy: 1530, 1492
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+badlogic
+  rotate: false
+  xy: 2, 2
+  size: 353, 409
+  orig: 353, 409
+  offset: 0, 0
+  index: -1
+milkyway
+  rotate: false
+  xy: 2, 1417
+  size: 1024, 575
+  orig: 1024, 575
+  offset: 0, 0
+  index: -1

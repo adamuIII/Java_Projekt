@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+/**
+ * Klasa GameScreen wyswietla rozgrywke po wybraniu tej opcji w menu
+ *
+ */
 class GameScreen implements Screen{
 
      //ekran
@@ -35,7 +39,6 @@ class GameScreen implements Screen{
 
 //    private Texture background;
 
-
     //timing
     private int backgroundOffset;
     float clock=0;
@@ -47,8 +50,7 @@ class GameScreen implements Screen{
     float clockForBoss=0;
 
     //world parameters
-    //private final int WORLD_WIDTH = 72;
-    //private final int WORLD_HEIGHT = 128;
+
     private final int WORLD_WIDTH = 250;
     private final int WORLD_HEIGHT = 140;
 
@@ -69,6 +71,7 @@ class GameScreen implements Screen{
     Sound shootsound;
     Sound explosion;
 
+
     GameScreen(MyGdxGame game){
         //2d camera
         camera = new OrthographicCamera();
@@ -81,7 +84,7 @@ class GameScreen implements Screen{
         background =  textureAtlas.findRegion("milkyway");
         backgroundOffset = 0;
 
-        //inicjalizacja grafik
+        //inicjalizacja grafiki
         statekGraczaTexture = textureAtlas.findRegion("Spaceship_06_GREEN");
         bulletTexture = textureAtlas.findRegion("Flame");
         statekPrzeciwnika1Texture = textureAtlas.findRegion("Spaceship_01_RED");
@@ -96,7 +99,7 @@ class GameScreen implements Screen{
 
         //tworzenie objektow gry na ekranie
             //tworzenie statku gracza:
-        statekGracza = new Player(60, 1, WORLD_WIDTH/2, WORLD_HEIGHT/4,30,30,statekGraczaTexture);
+        statekGracza = new Player(60, 8, WORLD_WIDTH/2, WORLD_HEIGHT/4,30,30,statekGraczaTexture);
 //        boss = new Boss(60,30,WORLD_WIDTH/2-35,WORLD_HEIGHT-60,70,70,bossTexture);
         bosses = new ArrayList<Boss>();
         //tworzenie pociskow gracza:
@@ -106,8 +109,8 @@ class GameScreen implements Screen{
             //tworzenie eksplozji
           explosionList = new LinkedList<>();
 
-        //dzwink
-        shootsound = Gdx.audio.newSound(Gdx.files.internal("shoot.mp3"));
+        //dzwiek
+        shootsound = Gdx.audio.newSound(Gdx.files.internal("laser.mp3"));
         explosion = Gdx.audio.newSound(Gdx.files.internal("boom.mp3"));
         batch = new SpriteBatch();
 
@@ -122,7 +125,9 @@ class GameScreen implements Screen{
 
      }
 
+
      @Override
+
      public void render(float delta) {
         batch.begin();
 
@@ -180,7 +185,7 @@ class GameScreen implements Screen{
              enemyBullet.draw(batch);
          }
 
-
+        // Tworzenie bosa gdy przekroczymy odpowiednia ilosc punktow
          if(statekGracza.points>=iloscPotrzebnychPkt){
              bossDestroyed = false;
          if(bossDestroyed ==false){
@@ -190,7 +195,6 @@ class GameScreen implements Screen{
              for(Boss boss:bosses){
                  {
                      boss.draw(batch);
-//                   background =  textureAtlas.findRegion("badlogic");
                      clockEnemyBullet+=Gdx.graphics.getDeltaTime();
                      clockForBoss+=Gdx.graphics.getDeltaTime();
                      if(clockEnemyBullet>1)
@@ -234,13 +238,13 @@ class GameScreen implements Screen{
 
 
 
-
          //Zatrzymanie spawnu przeciwnikow i stworzenie Bosa
 
 
 
 
          //POCISKI
+
         for (Bullet bullet : bullets){
             bullet.bulletMovement( WORLD_HEIGHT,Gdx.graphics.getDeltaTime());
             if (bullet.remove)
@@ -256,7 +260,7 @@ class GameScreen implements Screen{
     //Wyjście z aplikacji po przegranej
         if(statekGracza.healthPoints<=0)
         {
-            game.setScreenToMenu();
+            game.setScreenToKoniec();
         }
 
          //Renderowanie eksplozji
@@ -267,7 +271,13 @@ class GameScreen implements Screen{
         batch.end();
      }
 
-
+    /**
+     * Funkcja odpowiedzialna za poruszanie i strzelanie
+     * Statek porusza sie poprzez wcisniecie strzalek na klawiaturze a szybkosc zalezy od zmiennej speed ktora ustalamy przy tworzeniu gracza
+     * Strzelamy za pomoca spacji
+     * Po kliknieciu spacji tworza sie obiekty pociskow ktore poruszaja sie do przodu po ekranie. Gdy trafia w przeciwnika lub wyjda poza ekran zostaja usuniete z gry
+     * Na poczatku rozgrywki mamy do dyspozycji 2 dzialka. Jesli uda nam sie pokonac 1 i 3 bosa to dostaniemy do dyspozycji kolejne bronie
+     */
      private void keyInput(){
          if(Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT))
              statekGracza.xPos -= Gdx.graphics.getDeltaTime() * (statekGracza.speed+30);
@@ -295,13 +305,24 @@ class GameScreen implements Screen{
          }
      }
 
-
+    /**
+     * Dzieki funkcji Napisy w lewym i gornym rogu ekranu wyswietlaja sie informacje na temat ile mamy aktualnie punktow oraz ile punktow zycia nam zostalo
+     * Napisy na biezaco sie aktualizuja
+     */
      private void Napisy(){
          GlyphLayout scoreLayout = new GlyphLayout(scoreFont,"Points: "+statekGracza.points);
          scoreFont.draw(batch,scoreLayout, 5,WORLD_HEIGHT);
          GlyphLayout healthLayout = new GlyphLayout(healthFont,"Health: "+(int)statekGracza.healthPoints);
          healthFont.draw(batch,healthLayout,215,WORLD_HEIGHT);
      }
+
+    /**
+     * Ta funkcja sprawia ze przeciwnicy sie poruszaja oraz sa usuwani jesli zostana spelnione ku temu warunki
+     *
+     *
+     * @param enemiesToRemove Lista przeciwnikow ktorych mozna usunac. Sprawdzamy czy przeciwnik ma 0 punktow zycia lub czy wylecial poza ekran
+     * @param bulletsToRemove Lista pociskow do usuniecia. Sprawdzamy czy pocisk wylecial poza ekran lub czy trafil w jednostke wroga
+     */
     private void PrzeciwnicyIkolizja(ArrayList enemiesToRemove,ArrayList bulletsToRemove){
         for(Enemy enemy : enemies){
             for (Bullet bullet: bullets){
@@ -332,7 +353,6 @@ class GameScreen implements Screen{
                 enemiesToRemove.add(enemy);
         }
 
-        //Dodanie tekstury do przeciwnika
         enemies.removeAll(enemiesToRemove);
         for (Enemy enemy : enemies){
             enemy.draw(batch);
@@ -341,16 +361,23 @@ class GameScreen implements Screen{
 
     }
 
+    /**
+     *
+     * @param SprawnTime Przechowuje informacje co jaką ilosc sekund ma pojawic sie kolejny przeciwnik. Po pokonaniu bosa przeciwnicy spawnuja sie szybciej
+     */
     private void SpawnPrzeciwnikaCoXsec(float SprawnTime)
     {
         clock += Gdx.graphics.getDeltaTime();
         if (clock>SprawnTime) {
             enemies.add(new Enemy(30,(int) (Math.random() * (200)) + 10,WORLD_HEIGHT,5,25,25,statekPrzeciwnika1Texture));
-            clock = 0; // reset your variable to 0
+            clock = 0;
         }
     }
 
-
+    /**
+     * Funkcja odpowiedzialna za wygenerowanie eksplozji.
+     * Jest wywolywana gdy statek przeciwnika zostanie zniszczony
+     */
      private void renderExplosions(float deltaTime){
         ListIterator<Explosion> explosionListIterator = explosionList.listIterator();
         while (explosionListIterator.hasNext()){
@@ -363,10 +390,7 @@ class GameScreen implements Screen{
                 explosion.draw(batch);
             }
         }
-        if(ilosc_pokonanych_bosow==5)
-        {
-//        game.setScreenToMenu();
-        }
+
 
      }
 

@@ -4,7 +4,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-
+/**
+ * Klasa tworzaca pocisk gracza
+ * Pocisk tworzy sie po kliknieciu spacji w miejscu dzialek gracza
+ *
+ */
 public class Bullet {
 
     float bulletSpeed;
@@ -24,6 +28,9 @@ public class Bullet {
         this.bulletGraphic = bulletGraphic;
     }
 
+    /**
+     * Poruszanie pocisku w strone przeciwnikow
+     */
     public void bulletMovement(int WORLD_HEIGHT,float GETTIME){
         yPosition=yPosition+GETTIME*bulletSpeed;
         if(yPosition>WORLD_HEIGHT)
@@ -35,7 +42,10 @@ public class Bullet {
     public void draw(Batch batch){
         batch.draw(bulletGraphic,xPosition,yPosition,width,height);}
 
-
+    /**
+     *
+     * @return Metoda zwraca prostokat dzieki ktoremu mamy hitbox pocisku
+     */
     public Rectangle getHitBox(){
         return new Rectangle(xPosition,yPosition,width,height);
     }

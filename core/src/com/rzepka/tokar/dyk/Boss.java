@@ -1,14 +1,14 @@
 package com.rzepka.tokar.dyk;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.bullet.collision._btMprSupport_t;
 
-import java.util.Random;
-
+/**
+ * Klasa tworzaca Bosa.
+ * Bos pojawia sie po zdobyciu odpowiedniej ilosci punktow. Pojawienie sie bosa zatrzymuje spawn przeciwnikow.
+ *
+ */
 public class Boss {
     int hp;
     float speed;
@@ -30,17 +30,18 @@ public class Boss {
 
     }
 
-
-
-
+    /**
+     * Tworzymy prostokat na podstawie wysokosci i wielkosci png bosa dzieki ktoremu mozemy otrzymac hibox bosa.
+     */
     public boolean intersectsBoss(Rectangle otherRectangle){
         Rectangle thisRectangle = new Rectangle(xPos+18,yPos+18,width-38,height);
         return thisRectangle.overlaps(otherRectangle);
     }
 
+    /**
+     * Metoda dzieki ktorej bos moze sie poruszac. Przemieszcza sie tylko po x. Gdy doleci do kranca ekranu to zmienia kierunek w ktorym sie porusza.
+     */
     public void bossMovement(float GETTIME,int WORLD_WIDTH,int clock){
-
-
         System.out.println(xPos);
         if(zmianaKierunku)
         {

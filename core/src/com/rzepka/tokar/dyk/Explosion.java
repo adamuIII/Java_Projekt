@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * Klasa w ktorej tworzymy eksplozje
+ * Tworzymy tablice wielowymiarowa ktora bedzie wczytywala obraz explosion.png w odpowiedniej kolejnosci w ciagu okreslonego czasu dzieki czemu wytworzymy efekt krotkiego filmu.
+ */
 public class Explosion {
     private Animation <TextureRegion> explosionAnimation;
     private float explosionTimer;

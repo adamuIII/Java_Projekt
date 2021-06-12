@@ -5,7 +5,11 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-
+/**
+ * Klasa info zmieni scene gdy w menu klikniemy w przycisk info
+ * Wyswietli nam ona scene ktora wyswietla informacje o autorach taka jak wykonana praca w projekcie oraz link do githuba
+ * W dolnej czesci ekranu znajduja sie przyciski dzieki ktorym mozemy zmienic wyswietlanego autora lub wrocic do menu
+ */
 public class Info implements Screen {
     private SpriteBatch batch;
     Texture adamInfo,bartekInfo,temp;

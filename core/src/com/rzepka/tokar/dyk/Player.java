@@ -1,22 +1,23 @@
 package com.rzepka.tokar.dyk;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * Tworzymy klase Player
+ * Jest to statek nad ktorym gracz ma pelna kontrole
+ */
 public class Player {
 
     //Podstawowe wartosci;
     float speed;
     float healthPoints;
     int points=0;
-    //pozycja
     public float xPos,yPos;
     float width,height;
 
-    //pociski
+
 
 
     //grafika
@@ -38,11 +39,14 @@ public class Player {
 
     //Tworzenie statku na ekranie
     public void draw(Batch batch){
-        batch.draw(playerGraphics, xPos ,yPos,width,height);
+        batch.draw(playerGraphics, xPos ,yPos,width-7,height-5);
     }
 
+    /**
+     * Zmienna boolean intersectsPlayer sprawdza czy pocisk przeciwnika wchodzi w hitbox gracza
+     */
     public boolean intersectsPlayer(Rectangle otherRectangle){
-        Rectangle thisRectangle = new Rectangle(xPos,yPos,width,height);
+        Rectangle thisRectangle = new Rectangle(xPos+10,yPos+5,width-18,height-20);
         return thisRectangle.overlaps(otherRectangle);
     }
 

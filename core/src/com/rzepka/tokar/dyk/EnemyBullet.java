@@ -3,8 +3,10 @@ package com.rzepka.tokar.dyk;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import java.awt.*;
-
+/**
+ * Klasa tworzaca pociski przeciwnikow
+ * Pociski tworza sie co okreslony czas w miejscach broni przeciwnikow i leca w strone gracza
+ */
 public class EnemyBullet {
 
     float enemyBulletSpeed;
@@ -36,8 +38,11 @@ public class EnemyBullet {
         batch.draw(enemyBulletGraphic,xpos,ypos,width,height);
     }
 
-
+    /**
+     *
+     * @return Funkcja zwraca prostokat dzieki ktoremu mozemy okreslic hitbox pocisku
+     */
     public com.badlogic.gdx.math.Rectangle getHitBoxEnemybullet(){
-        return new com.badlogic.gdx.math.Rectangle(xpos,ypos,width,height);
+        return new com.badlogic.gdx.math.Rectangle(xpos+5,ypos-5,width-5,height+5);
     }
 }

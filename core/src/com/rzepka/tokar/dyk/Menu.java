@@ -6,10 +6,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.rzepka.tokar.dyk.GameScreen;
-import javafx.scene.layout.Background;
 
+/**
+ * Stworzenie nowej klasy Menu typu Screen
+ * Mamy do wyboru przyciski ktore wybieramy za pomoca myszki
+ * Jesli najedziemy na przycisk to zmieni on kolor a jesli go klikniemy to zmienimy scene oraz uslyszymy dzwiek
+ */
 public class Menu implements Screen {
     private SpriteBatch batch;
     Texture menubackground,playButton,playButtonActive,infoButton,infoButtonActive,exitButton,exitButtonActive;
